@@ -1,7 +1,9 @@
-﻿namespace Jobberwocky.DataAccess.Company
+﻿using Jobberwocky.Domain;
+
+namespace Jobberwocky.DataAccess
 {
   public interface ICompanyRepository
   {
-    public void Add();
+    public Company Add(Company company);
   }
 }

@@ -1,4 +1,5 @@
 ﻿using Jobberwocky.Api.Services;
+using Jobberwocky.Domain;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -28,9 +29,9 @@ namespace Jobberwocky.Api.Controllers
     }
 
     [HttpPost]
-    public void Post([FromBody] string value)
+    public Company Post([FromBody] Company company)
     {
-      this.companyService.Add();
+      return this.companyService.Add(company);
     }
 
     [HttpPut("{id}")]

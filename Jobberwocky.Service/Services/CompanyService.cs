@@ -1,4 +1,5 @@
-﻿using Jobberwocky.DataAccess.Company;
+﻿using Jobberwocky.DataAccess;
+using Jobberwocky.Domain;
 
 namespace Jobberwocky.Api.Services
 {
@@ -11,9 +12,9 @@ namespace Jobberwocky.Api.Services
       this.companyRepository = companyRepository ?? throw new System.ArgumentNullException(nameof(companyRepository));
     }
 
-    public void Add()
+    public Company Add(Company company)
     {
-      this.companyRepository.Add();
+      return this.companyRepository.Add(company);
     }
   }
 }

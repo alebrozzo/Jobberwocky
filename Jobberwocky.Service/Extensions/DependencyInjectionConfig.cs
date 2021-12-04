@@ -1,7 +1,7 @@
 ﻿namespace Jobberwocky.Api.Extensions
 {
   using Jobberwocky.Api.Services;
-  using Jobberwocky.DataAccess.Company;
+  using Jobberwocky.DataAccess;
   using Microsoft.Extensions.DependencyInjection;
 
   public static class MyConfigServiceCollectionExtensions

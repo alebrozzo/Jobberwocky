@@ -1,7 +1,9 @@
-﻿namespace Jobberwocky.Api.Services
+﻿using Jobberwocky.Domain;
+
+namespace Jobberwocky.Api.Services
 {
   public interface ICompanyService
   {
-    void Add();
+    Company Add(Company company);
   }
 }
