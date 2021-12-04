@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Jobberwocky.Api.Services;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace Jobberwocky.Api.Controllers
@@ -7,6 +8,13 @@ namespace Jobberwocky.Api.Controllers
   [ApiController]
   public class CompanyController : ControllerBase
   {
+    private readonly ICompanyService companyService;
+
+    public CompanyController(ICompanyService companyService)
+    {
+      this.companyService = companyService ?? throw new System.ArgumentNullException(nameof(companyService));
+    }
+
     [HttpGet]
     public List<string> Get()
     {
@@ -22,6 +30,7 @@ namespace Jobberwocky.Api.Controllers
     [HttpPost]
     public void Post([FromBody] string value)
     {
+      this.companyService.Add();
     }
 
     [HttpPut("{id}")]
