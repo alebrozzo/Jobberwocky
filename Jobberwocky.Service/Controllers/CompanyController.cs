@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace Jobberwocky.Service.Controllers
+namespace Jobberwocky.Api.Controllers
 {
   [Route("api/companies")]
   [ApiController]

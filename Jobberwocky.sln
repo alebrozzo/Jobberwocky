@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobberwocky.Service", "Jobberwocky.Service\Jobberwocky.Service.csproj", "{F352C486-5386-4808-9E38-D70B8DDE6D17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobberwocky.Api", "Jobberwocky.Service\Jobberwocky.Api.csproj", "{F352C486-5386-4808-9E38-D70B8DDE6D17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

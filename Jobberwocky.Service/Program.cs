@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Jobberwocky.Service
+namespace Jobberwocky.Api
 {
   public class Program
   {
