@@ -5,7 +5,7 @@ namespace Jobberwocky.Service.Controllers
 {
   [Route("api/companies")]
   [ApiController]
-  public class Company : ControllerBase
+  public class CompanyController : ControllerBase
   {
     [HttpGet]
     public List<string> Get()
