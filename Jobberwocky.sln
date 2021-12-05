@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobberwocky.DataAccess", "J
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobberwocky.Domain", "Jobberwocky.Domain\Jobberwocky.Domain.csproj", "{F11BDF28-2E03-4314-95F1-7254C1493A18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobberwocky.Test", "Jobberwocky.Test\Jobberwocky.Test.csproj", "{22FFC73E-4256-4786-B7C9-EFB7CB94B129}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F11BDF28-2E03-4314-95F1-7254C1493A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F11BDF28-2E03-4314-95F1-7254C1493A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F11BDF28-2E03-4314-95F1-7254C1493A18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22FFC73E-4256-4786-B7C9-EFB7CB94B129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22FFC73E-4256-4786-B7C9-EFB7CB94B129}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22FFC73E-4256-4786-B7C9-EFB7CB94B129}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22FFC73E-4256-4786-B7C9-EFB7CB94B129}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
