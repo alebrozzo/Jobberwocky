@@ -14,8 +14,8 @@ namespace Jobberwocky.Test.Repositories
     {
     }
 
-    [TestCase(false, TestName = "When ID is not provided")]
-    [TestCase(true, TestName = "When ID is provided")]
+    [TestCase(false, Description = "When ID is not provided")]
+    [TestCase(true, Description = "When ID is provided")]
     [Order(1)]
     public async Task AddsCompany(bool idProvided)
     {
@@ -24,7 +24,7 @@ namespace Jobberwocky.Test.Repositories
       var sut = this.CreateSut();
 
       var companyIdReturned = await sut.Add(company);
-      
+
       if (idProvided)
       {
         Assert.AreEqual(companyId, companyIdReturned);
