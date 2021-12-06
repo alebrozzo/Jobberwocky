@@ -23,14 +23,14 @@ namespace Jobberwocky.DataAccess
     /// <summary>
     /// Updates an existing company. Searches by ID.
     /// </summary>
-    /// <param name="company">The new data for the company. ID must exist.</param>
+    /// <param name="company">The new data for the company. Assumes ID exists.</param>
     /// <returns></returns>
     Task Update(Company company);
 
     /// <summary>
-    /// Deletes a company.
+    /// Deletes a company from the repository.
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">The ID of the company to delete. Assumes ID exists.</param>
     /// <returns></returns>
     Task Delete(Guid id);
   }
