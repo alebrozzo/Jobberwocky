@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Jobberwocky.DataAccess\Jobberwocky.DataAccess.csproj" />
+    <ProjectReference Include="..\Jobberwocky.Domain\Jobberwocky.Domain.csproj" />
     <ProjectReference Include="..\Jobberwocky.Service\Jobberwocky.Api.csproj" />
   </ItemGroup>
 
