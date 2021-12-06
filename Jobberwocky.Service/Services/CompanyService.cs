@@ -19,7 +19,7 @@ namespace Jobberwocky.Api.Services
     {
       if (id == Guid.Empty)
       {
-        return OperationResult<Company>.Error(OperationStatus.ValidationError, "Please indicate an id to search by.");
+        return OperationResult<Company>.Error(OperationStatus.ValidationError, "Please provide an ID to search by.");
       }
 
       var company = await this.companyRepository.Get(id);
@@ -112,7 +112,7 @@ namespace Jobberwocky.Api.Services
         return OperationResult<Company>.Error(OperationStatus.ValidationError, "Company name must be between 5 and 20 characters long.");
       }
 
-      if (company.Description != null && company.Description.Length > 500)
+      if (string.IsNullOrWhiteSpace(company.Description) && company.Description.Length > 500)
       {
         return OperationResult<Company>.Error(OperationStatus.ValidationError, "Company description must be up to 500 characters long.");
       }
