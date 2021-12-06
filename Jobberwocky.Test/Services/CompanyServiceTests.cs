@@ -7,7 +7,7 @@ using Jobberwocky.Test.Helpers;
 using System.Threading.Tasks;
 using Jobberwocky.Api.Services.OperationHandling;
 
-namespace Jobberwocky.Test
+namespace Jobberwocky.Test.Services
 {
   public class CompanyServiceTests
   {
@@ -69,6 +69,7 @@ namespace Jobberwocky.Test
 
     [TestCase("1234", Description = "Name too short")]
     [TestCase("123456789012345678901", Description = "Name too long")]
+    [TestCase("", Description = "Name is empty")]
     public async Task CannotAddCompanyWhenDataIsNotValid(string name)
     {
       var companyToCreate = TestDataCreator.Company(name: name);
