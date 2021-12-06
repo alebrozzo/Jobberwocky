@@ -10,7 +10,7 @@ namespace Jobberwocky.Test.Helpers
       return new Company()
       {
         Id = id ?? Guid.NewGuid(),
-        Name = name ?? Guid.NewGuid().ToString(),
+        Name = name ?? Guid.NewGuid().ToString().Substring(0, 20),
         Description = description ?? Guid.NewGuid().ToString(),
       };
     }

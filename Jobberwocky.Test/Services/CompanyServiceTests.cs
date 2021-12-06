@@ -1,8 +1,11 @@
+using System;
 using NUnit.Framework;
 using NSubstitute;
 using Jobberwocky.Api.Services;
 using Jobberwocky.DataAccess;
 using Jobberwocky.Domain;
+using Jobberwocky.Test.Helpers;
+using System.Threading.Tasks;
 
 namespace Jobberwocky.Test
 {
@@ -17,16 +20,15 @@ namespace Jobberwocky.Test
     }
 
     [Test]
-    public void CanAddCompany()
+    public void CanAddCompanyWhenDataIsValid()
     {
-      var companyCreated = new Company();
-      this.companyRepository.Add(default).ReturnsForAnyArgs(companyCreated);
+      var companyToCreate = TestDataCreator.Company();
+      this.companyRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(companyToCreate.Id));
 
       var companyService = this.CreateSut();
-      var newCompany = new Company();
-      _ = companyService.Add(newCompany);
+      _ = companyService.Add(companyToCreate);
 
-      this.companyRepository.Received(1).Add(newCompany);
+      this.companyRepository.Received(1).Add(companyToCreate);
     }
 
     private CompanyService CreateSut()
