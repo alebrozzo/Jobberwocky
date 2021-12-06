@@ -39,6 +39,15 @@ namespace Jobberwocky.Api.Services
         return validationResult;
       }
 
+      if (company.Id != Guid.Empty)
+      {
+        var existingCompany = await this.companyRepository.Get(company.Id);
+        if (existingCompany != null)
+        {
+          return OperationResult<Company>.Error(OperationStatus.ValidationError, "A company with the provided ID already exists.");
+        }
+      }
+
       var companyId = await this.companyRepository.Add(company);
       var retrievedCompany = await this.companyRepository.Get(companyId);
 
