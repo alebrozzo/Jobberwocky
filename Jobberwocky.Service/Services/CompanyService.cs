@@ -67,15 +67,15 @@ namespace Jobberwocky.Api.Services
         return OperationResult<Company>.Error(OperationStatus.ValidationError, "Please provide the ID of the company to update.");
       }
 
-      await this.companyRepository.Update(company);
-      var retrievedCompany = await this.companyRepository.Get(company.Id);
-
-      if (retrievedCompany == null)
+      var existingCompany = await this.companyRepository.Get(company.Id);
+      if (existingCompany == null)
       {
         return OperationResult<Company>.Error(OperationStatus.NotFound);
       }
 
-      return OperationResult<Company>.Ok(retrievedCompany);
+      await this.companyRepository.Update(company);
+
+      return OperationResult<Company>.Ok(company);
     }
 
     public async Task<OperationResult<bool>> Delete(Guid id)
