@@ -15,7 +15,7 @@ namespace Jobberwocky.DataAccess
       new Posting {
         Id = Guid.Parse("00000000-bbbb-cccc-dddd-000000000000"),
         Title = "Sr. Software Engineer",
-        Location = "Christchurch, New Zealand",
+        Location = "Christchurch",
         CompanyId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-333333333333"),
         Description = "A great software engineer and person to cover for a recent loss.",
         RemoteAvailable = true,
@@ -26,7 +26,7 @@ namespace Jobberwocky.DataAccess
       new Posting {
         Id = Guid.Parse("11111111-bbbb-cccc-dddd-000000000000"),
         Title = "Software Engineer",
-        Location = "Barcelona, España",
+        Location = "Barcelona",
         CompanyId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-222222222222"),
         Description = "Main Responsibilities and Duties: blah blah blah",
         RemoteAvailable = true,
@@ -37,7 +37,7 @@ namespace Jobberwocky.DataAccess
       new Posting {
         Id = Guid.Parse("22222222-bbbb-cccc-dddd-000000000000"),
         Title = "Team Leader",
-        Location = "Madrid, España",
+        Location = "Madrid",
         CompanyId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-222222222222"),
         Description = "Main Responsibilities and Duties: blah blah blah",
         RemoteAvailable = true,
@@ -48,7 +48,7 @@ namespace Jobberwocky.DataAccess
       new Posting {
         Id = Guid.Parse("33333333-bbbb-cccc-dddd-000000000000"),
         Title = "Account Manager",
-        Location = "Madrid, España",
+        Location = "Madrid",
         CompanyId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-111111111111"),
         Description = "Needs to manage accounts like a pro",
         RemoteAvailable = false,
@@ -59,9 +59,9 @@ namespace Jobberwocky.DataAccess
       new Posting {
         Id = Guid.Parse("44444444-bbbb-cccc-dddd-000000000000"),
         Title = "Sr. Software Engineer",
-        Location = "Málaga, España",
+        Location = "Málaga",
         CompanyId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000000"),
-        Description = "Needs to manage accounts like a pro",
+        Description = "We'll take anybody!",
         RemoteAvailable = false,
         SalaryRangeMin = 35000,
         SalaryRangeMax = 55000,
