@@ -78,15 +78,18 @@ namespace Jobberwocky.Test.Services
       await this.postingRepository.Received(1).Add(postingToCreate);
     }
 
-    [TestCase("", 100, 200, Description = "Description blank")]
-    [TestCase("        ", 100, 200, Description = "Description empty spaces")]
-    [TestCase("1234", 100, 200, Description = "Description too short")]
-    [TestCase("12345678", -100, 200, Description = "Negative minimum salary")]
-    [TestCase("12345678", null, -200, Description = "Negative maximum salary")]
-    [TestCase("12345678", 200, 100, Description = "Salary range invalid")]
-    public async Task CannotAddPostingWhenDataIsNotValid(string description, decimal? salaryMin, decimal? salaryMax)
+    [TestCase("", "Valid description", 100, 200, Description = "Title blank")]
+    [TestCase("          ", "Valid description", 100, 200, Description = "Title empty spaces")]
+    [TestCase("Inv", "Valid description", 100, 200, Description = "Title too short")]
+    [TestCase("Valid Title", "", 100, 200, Description = "Description blank")]
+    [TestCase("Valid Title", "        ", 100, 200, Description = "Description empty spaces")]
+    [TestCase("Valid Title", "1234", 100, 200, Description = "Description too short")]
+    [TestCase("Valid Title", "12345678", -100, 200, Description = "Negative minimum salary")]
+    [TestCase("Valid Title", "12345678", null, -200, Description = "Negative maximum salary")]
+    [TestCase("Valid Title", "12345678", 200, 100, Description = "Salary range invalid")]
+    public async Task CannotAddPostingWhenDataIsNotValid(string title, string description, decimal? salaryMin, decimal? salaryMax)
     {
-      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, description: description, salariMin: salaryMin, salaryMax: salaryMax);
+      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salariMin: salaryMin, salaryMax: salaryMax);
       this.postingRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(postingToCreate.Id));
 
       var postingService = this.CreateSut();
@@ -126,15 +129,18 @@ namespace Jobberwocky.Test.Services
       await this.postingRepository.Received(1).Update(postingToUpdate);
     }
 
-    [TestCase("", 100, 200, Description = "Description blank")]
-    [TestCase("        ", 100, 200, Description = "Description empty spaces")]
-    [TestCase("1234", 100, 200, Description = "Description too short")]
-    [TestCase("12345678", -100, 200, Description = "Negative minimum salary")]
-    [TestCase("12345678", null, -200, Description = "Negative maximum salary")]
-    [TestCase("12345678", 200, 100, Description = "Salary range invalid")]
-    public async Task CannotUpdatePostingWhenDataIsNotValid(string description, decimal? salaryMin, decimal? salaryMax)
+    [TestCase("", "Valid description", 100, 200, Description = "Title blank")]
+    [TestCase("          ", "Valid description", 100, 200, Description = "Title empty spaces")]
+    [TestCase("Inv", "Valid description", 100, 200, Description = "Title too short")]
+    [TestCase("Valid Title", "", 100, 200, Description = "Description blank")]
+    [TestCase("Valid Title", "        ", 100, 200, Description = "Description empty spaces")]
+    [TestCase("Valid Title", "1234", 100, 200, Description = "Description too short")]
+    [TestCase("Valid Title", "12345678", -100, 200, Description = "Negative minimum salary")]
+    [TestCase("Valid Title", "12345678", null, -200, Description = "Negative maximum salary")]
+    [TestCase("Valid Title", "12345678", 200, 100, Description = "Salary range invalid")]
+    public async Task CanUpdatePostingWhenDataIsValid(string title, string description, decimal? salaryMin, decimal? salaryMax)
     {
-      var postingToUpdate = TestDataCreator.Posting(companyId: defaultCompany.Id, description: description, salariMin: salaryMin, salaryMax: salaryMax);
+      var postingToUpdate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salariMin: salaryMin, salaryMax: salaryMax);
       this.postingRepository.Get(postingToUpdate.Id).Returns(postingToUpdate);
 
       var postingService = this.CreateSut();
