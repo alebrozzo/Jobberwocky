@@ -18,6 +18,7 @@ namespace Jobberwocky.Test.Helpers
 
     public static Posting Posting(
       Guid? id = null,
+      string title = null,
       string description = null,
       string location = null,
       Guid? companyId = null,
@@ -36,6 +37,7 @@ namespace Jobberwocky.Test.Helpers
       return new Posting()
       {
         Id = id ?? Guid.NewGuid(),
+        Title = title ?? Guid.NewGuid().ToString(),
         Description = description ?? Guid.NewGuid().ToString(),
         CompanyId = companyId ?? Guid.NewGuid(),
         Location = location ?? Guid.NewGuid().ToString(),

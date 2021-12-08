@@ -85,6 +85,7 @@ namespace Jobberwocky.Test.Repositories
     private void AssertPosting(Posting expected, Posting actual)
     {
       Assert.AreEqual(expected.CompanyId, actual.CompanyId);
+      Assert.AreEqual(expected.Title, actual.Title);
       Assert.AreEqual(expected.Description, actual.Description);
       Assert.AreEqual(expected.Location, actual.Location);
       Assert.AreEqual(expected.SalaryRangeMin, actual.SalaryRangeMin);

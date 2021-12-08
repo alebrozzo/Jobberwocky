@@ -106,14 +106,24 @@ namespace Jobberwocky.Api.Services
         return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting data is missing.");
       }
 
+      if (string.IsNullOrWhiteSpace(posting.Title))
+      {
+        return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting title is missing.");
+      }
+
       if (string.IsNullOrWhiteSpace(posting.Description))
       {
-        return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting name is missing.");
+        return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting description is missing.");
       }
 
       if (!posting.CompanyId.HasValue || posting.CompanyId == Guid.Empty)
       {
         return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting company is missing.");
+      }
+
+      if (posting.Title.Length < 5 || posting.Title.Length > 100)
+      {
+        return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting title must be between 5 and 100 characters long.");
       }
 
       if (posting.Description.Length < 5 || posting.Description.Length > 10000)
