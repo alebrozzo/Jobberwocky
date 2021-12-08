@@ -26,6 +26,7 @@ namespace Jobberwocky.DataAccess
         posting.Id = Guid.NewGuid();
       }
 
+      posting.DateCreated = DateTime.UtcNow;
       postings.Add(posting);
 
       return posting.Id;

@@ -86,7 +86,6 @@ namespace Jobberwocky.Test.Repositories
     {
       Assert.AreEqual(expected.CompanyId, actual.CompanyId);
       Assert.AreEqual(expected.Description, actual.Description);
-      Assert.AreEqual(expected.DateCreated, actual.DateCreated);
       Assert.AreEqual(expected.Location, actual.Location);
       Assert.AreEqual(expected.SalaryRangeMin, actual.SalaryRangeMin);
       Assert.AreEqual(expected.SalaryRangeMax, actual.SalaryRangeMax);
