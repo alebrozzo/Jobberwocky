@@ -112,7 +112,12 @@ namespace Jobberwocky.Api.Services
         return OperationResult<Company>.Error(OperationStatus.ValidationError, "Company name must be between 5 and 20 characters long.");
       }
 
-      if (string.IsNullOrWhiteSpace(company.Description) && company.Description.Length > 500)
+      if (string.IsNullOrWhiteSpace(company.Description))
+      {
+        return OperationResult<Company>.Error(OperationStatus.ValidationError, "Company description must not be empty.");
+      }
+
+      if (company.Description.Length > 500)
       {
         return OperationResult<Company>.Error(OperationStatus.ValidationError, "Company description must be up to 500 characters long.");
       }

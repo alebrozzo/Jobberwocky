@@ -102,10 +102,24 @@ namespace Jobberwocky.Test.Services
     }
 
     [Test]
-    public async Task CannotAddPostingWhenIdlreadyExists()
+    public async Task CannotAddPostingWhenIdAlreadyExists()
     {
       var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id);
       this.postingRepository.Get(postingToCreate.Id).ReturnsForAnyArgs(Task.FromResult(postingToCreate));
+
+      var postingService = this.CreateSut();
+      var result = await postingService.Add(postingToCreate);
+
+      Assert.AreEqual(OperationStatus.ValidationError, result.Status);
+      await this.postingRepository.DidNotReceiveWithAnyArgs().Add(default);
+    }
+
+    [Test]
+    public async Task CannotAddPostingWhenCompanyDoesNotExist()
+    {
+      var postingToCreate = TestDataCreator.Posting(companyId: Guid.NewGuid());
+      this.postingRepository.Get(postingToCreate.Id).ReturnsForAnyArgs(Task.FromResult(postingToCreate));
+      this.companyRepository.Get(postingToCreate.CompanyId.Value).Returns((Company)null);
 
       var postingService = this.CreateSut();
       var result = await postingService.Add(postingToCreate);

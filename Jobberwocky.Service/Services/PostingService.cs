@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Jobberwocky.Api.Services.OperationHandling;
 using Jobberwocky.DataAccess;
@@ -37,7 +38,7 @@ namespace Jobberwocky.Api.Services
 
     public async Task<OperationResult<Posting>> Add(Posting posting)
     {
-      var validationResult = this.ValidatePosting(posting);
+      var validationResult = await this .ValidatePosting(posting);
       if (validationResult != null)
       {
         return validationResult;
@@ -53,14 +54,12 @@ namespace Jobberwocky.Api.Services
       }
 
       var postingId = await this.postingRepository.Add(posting);
-      var retrievedPosting = await this.postingRepository.Get(postingId);
-
-      return OperationResult<Posting>.Ok(retrievedPosting);
+      return await this.Get(postingId);
     }
 
     public async Task<OperationResult<Posting>> Update(Posting posting)
     {
-      var validationResult = this.ValidatePosting(posting);
+      var validationResult = await this.ValidatePosting(posting);
       if (validationResult != null)
       {
         return validationResult;
@@ -99,7 +98,7 @@ namespace Jobberwocky.Api.Services
       return OperationResult<bool>.Ok(true);
     }
 
-    private OperationResult<Posting> ValidatePosting(Posting posting)
+    private async Task<OperationResult<Posting>> ValidatePosting(Posting posting)
     {
       if (posting == null)
       {
@@ -146,7 +145,7 @@ namespace Jobberwocky.Api.Services
         return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting salary range is invalid.");
       }
 
-      var company = this.companyRepository.Get(posting.CompanyId.Value);
+      var company = await this.companyRepository.Get(posting.CompanyId.Value);
       if (company is null)
       {
         return OperationResult<Posting>.Error(OperationStatus.ValidationError, "Posting company is invalid.");
