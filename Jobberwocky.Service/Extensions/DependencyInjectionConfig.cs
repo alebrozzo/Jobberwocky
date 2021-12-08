@@ -9,8 +9,10 @@
     public static IServiceCollection AddDependencyInjectionConfig(
       this IServiceCollection services)
     {
-      services.AddScoped<ICompanyService, CompanyService>();
       services.AddScoped<ICompanyRepository, CompanyRepository>();
+      services.AddScoped<IPostingRepository, PostingRepository>();
+      services.AddScoped<ICompanyService, CompanyService>();
+      services.AddScoped<IPostingService, PostingService>();
 
       return services;
     }
