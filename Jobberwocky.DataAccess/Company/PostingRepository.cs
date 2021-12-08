@@ -21,6 +21,7 @@ namespace Jobberwocky.DataAccess
         RemoteAvailable = true,
         SalaryRangeMin = 90000,
         SalaryRangeMax = 110000,
+        DateCreated = DateTime.UtcNow.AddDays(-15),
         Tags = new List<string> { "C#", "Agile", "Soft Skills" },
       },
       new Posting {
@@ -32,6 +33,7 @@ namespace Jobberwocky.DataAccess
         RemoteAvailable = true,
         SalaryRangeMin = 40000,
         SalaryRangeMax = 55000,
+        DateCreated = DateTime.UtcNow.AddDays(-25),
         Tags = new List<string> { "C#", ".NET", "TypeScript", "Angular" },
       },
       new Posting {
@@ -43,6 +45,7 @@ namespace Jobberwocky.DataAccess
         RemoteAvailable = true,
         SalaryRangeMin = 45000,
         SalaryRangeMax = 65000,
+        DateCreated = DateTime.UtcNow.AddDays(-6),
         Tags = new List<string> { "C#", ".NET", "Soft Skills" },
       },
       new Posting {
@@ -54,6 +57,7 @@ namespace Jobberwocky.DataAccess
         RemoteAvailable = false,
         SalaryRangeMin = 45000,
         SalaryRangeMax = 65000,
+        DateCreated = DateTime.UtcNow.AddDays(-1),
         Tags = new List<string> { "Management", "Soft Skills" },
       },
       new Posting {
@@ -65,6 +69,7 @@ namespace Jobberwocky.DataAccess
         RemoteAvailable = false,
         SalaryRangeMin = 35000,
         SalaryRangeMax = 55000,
+        DateCreated = DateTime.UtcNow.AddDays(-2),
         Tags = new List<string> { "C#", ".NET", "TypeScript", "React", "Soft Skills", "JavaScript" },
       },
     };
@@ -92,6 +97,7 @@ namespace Jobberwocky.DataAccess
     public async Task Update(Posting posting)
     {
       await Task.Yield();
+      posting.DateCreated = DateTime.UtcNow; // since the value does not come from controller, fake it here. It shouldn't be updated in real life.
       var ix = postings.FindIndex(c => c.Id == posting.Id);
       postings[ix] = posting;
     }
