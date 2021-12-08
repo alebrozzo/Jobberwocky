@@ -61,15 +61,17 @@ namespace Jobberwocky.Test.Services
       await this.postingRepository.Received(1).Get(postingId);
     }
 
-    [TestCase("12345", 100, 200, Description = "Description minimum character long")]
-    [TestCase("12345678901234567890", 100, 200, Description = "Description maximum character long")]
-    [TestCase("12345678", null, null, Description = "No salary range")]
-    [TestCase("12345678", 100, null, Description = "No maximum salary")]
-    [TestCase("12345678", null, 200, Description = "No minimum salary")]
-    public async Task CanAddPostingWhenDataIsValid(string description, decimal? salaryMin, decimal? salaryMax)
+    [TestCase("12345", "12345", 100, 200, Description = "Title and description minimum character long")]
+    [TestCase("12345678", "12345678", null, null, Description = "No salary range")]
+    [TestCase("12345678", "12345678", 100, null, Description = "No maximum salary")]
+    [TestCase("12345678", "12345678", null, 200, Description = "No minimum salary")]
+    public async Task CanAddPostingWhenDataIsValid(string title, string description, decimal? salaryMin, decimal? salaryMax)
     {
-      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, description: description, salariMin: salaryMin, salaryMax: salaryMax);
-      this.postingRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(postingToCreate.Id));
+      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salariMin: salaryMin, salaryMax: salaryMax);
+      postingToCreate.Id = Guid.Empty;
+      var createdId = Guid.NewGuid();
+      this.postingRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(createdId));
+      this.postingRepository.Get(default).ReturnsForAnyArgs(Task.FromResult(postingToCreate));
 
       var postingService = this.CreateSut();
       var result = await postingService.Add(postingToCreate);
