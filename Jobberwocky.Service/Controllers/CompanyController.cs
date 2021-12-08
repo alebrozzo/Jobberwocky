@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Jobberwocky.Api.Services;
 using Jobberwocky.Domain;
-using Microsoft.AspNetCore.Http;
 
 namespace Jobberwocky.Api.Controllers
 {
@@ -15,7 +14,7 @@ namespace Jobberwocky.Api.Controllers
 
     public CompanyController(ICompanyService companyService)
     {
-      this.companyService = companyService ?? throw new System.ArgumentNullException(nameof(companyService));
+      this.companyService = companyService ?? throw new ArgumentNullException(nameof(companyService));
     }
 
     [HttpGet("{id}")]
