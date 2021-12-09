@@ -23,7 +23,7 @@ namespace Jobberwocky.Test.Helpers
       string location = null,
       Guid? companyId = null,
       bool remoteAvailable = false,
-      decimal? salariMin = 12000,
+      decimal? salaryMin = 12000,
       decimal? salaryMax = 55000,
       params string[] tags)
     {
@@ -42,7 +42,7 @@ namespace Jobberwocky.Test.Helpers
         CompanyId = companyId ?? Guid.NewGuid(),
         Location = location ?? Guid.NewGuid().ToString(),
         RemoteAvailable = remoteAvailable,
-        SalaryRangeMin = salariMin,
+        SalaryRangeMin = salaryMin,
         SalaryRangeMax = salaryMax,
         Tags = new List<string>(tags),
         DateCreated = DateTime.UtcNow,

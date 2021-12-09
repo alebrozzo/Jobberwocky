@@ -67,7 +67,7 @@ namespace Jobberwocky.Test.Services
     [TestCase("12345678", "12345678", null, 200, Description = "No minimum salary")]
     public async Task CanAddPostingWhenDataIsValid(string title, string description, decimal? salaryMin, decimal? salaryMax)
     {
-      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salariMin: salaryMin, salaryMax: salaryMax);
+      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salaryMin: salaryMin, salaryMax: salaryMax);
       postingToCreate.Id = Guid.Empty;
       var createdId = Guid.NewGuid();
       this.postingRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(createdId));
@@ -91,7 +91,7 @@ namespace Jobberwocky.Test.Services
     [TestCase("Valid Title", "12345678", 200, 100, Description = "Salary range invalid")]
     public async Task CannotAddPostingWhenDataIsNotValid(string title, string description, decimal? salaryMin, decimal? salaryMax)
     {
-      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salariMin: salaryMin, salaryMax: salaryMax);
+      var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salaryMin: salaryMin, salaryMax: salaryMax);
       this.postingRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(postingToCreate.Id));
 
       var postingService = this.CreateSut();
@@ -135,7 +135,7 @@ namespace Jobberwocky.Test.Services
     [TestCase("12345678", null, 200, Description = "No minimum salary")]
     public async Task CanUpdatePostingWhenDataIsValid(string description, decimal? salaryMin, decimal? salaryMax)
     {
-      var postingToUpdate = TestDataCreator.Posting(companyId: defaultCompany.Id, description: description, salariMin: salaryMin, salaryMax: salaryMax);
+      var postingToUpdate = TestDataCreator.Posting(companyId: defaultCompany.Id, description: description, salaryMin: salaryMin, salaryMax: salaryMax);
       this.postingRepository.Get(postingToUpdate.Id).Returns(postingToUpdate);
 
       var postingService = this.CreateSut();
@@ -156,7 +156,7 @@ namespace Jobberwocky.Test.Services
     [TestCase("Valid Title", "12345678", 200, 100, Description = "Salary range invalid")]
     public async Task CanUpdatePostingWhenDataIsValid(string title, string description, decimal? salaryMin, decimal? salaryMax)
     {
-      var postingToUpdate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salariMin: salaryMin, salaryMax: salaryMax);
+      var postingToUpdate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salaryMin: salaryMin, salaryMax: salaryMax);
       this.postingRepository.Get(postingToUpdate.Id).Returns(postingToUpdate);
 
       var postingService = this.CreateSut();
