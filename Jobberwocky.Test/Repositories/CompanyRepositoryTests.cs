@@ -42,7 +42,7 @@ namespace Jobberwocky.Test.Repositories
     {
       var storedCompany = TestDataCreator.Company();
       var sut = this.CreateSut();
-      _ = sut.Add(storedCompany);
+      _ = await sut.Add(storedCompany);
 
       var retrievedCompany = await sut.Get(storedCompany.Id);
 
@@ -50,14 +50,13 @@ namespace Jobberwocky.Test.Repositories
       this.AssertCompany(storedCompany, retrievedCompany);
     }
 
-
     [Test]
     [Order(3)]
     public async Task UpdatesCompany()
     {
       var storedCompany = TestDataCreator.Company();
       var sut = this.CreateSut();
-      _ = sut.Add(storedCompany);
+      _ = await sut.Add(storedCompany);
 
       storedCompany = TestDataCreator.Company(id: storedCompany.Id);
       await sut.Update(storedCompany);
@@ -73,7 +72,7 @@ namespace Jobberwocky.Test.Repositories
     {
       var storedCompany = TestDataCreator.Company();
       var sut = this.CreateSut();
-      _ = sut.Add(storedCompany);
+      _ = await sut.Add(storedCompany);
 
       await sut.Delete(storedCompany.Id);
 
