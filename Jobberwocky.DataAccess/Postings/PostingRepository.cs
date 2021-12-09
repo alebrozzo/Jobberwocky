@@ -117,7 +117,7 @@ namespace Jobberwocky.DataAccess
       IEnumerable<string> tags)
     {
       await Task.Yield();
-      var keywordList = keywords.Split(' ', StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
+      var keywordList = keywords?.Split(' ', StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
       var returnPostings = postings.Where(p => this.Matches(p, keywordList, location, remote, salaryMin, tags));
       return returnPostings;
     }

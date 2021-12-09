@@ -84,6 +84,15 @@ namespace Jobberwocky.Test.Repositories
       Assert.IsNull(retrievedPosting);
     }
 
+    [Test]
+    public async Task SearchDoesNotThrowWhenNoFilters()
+    {
+      var sut = this.CreateSut();
+      await sut.Add(TestDataCreator.Posting(title: "123 abcd 321"));
+
+      Assert.DoesNotThrowAsync(async () => await sut.Search(null, null, false, null, null));
+    }
+
     [TestCase("abcde1", 0, Description = "Single word, no matches")]
     [TestCase("abcde2", 1, Description = "Single word, single match")]
     [TestCase("abcde3", 5, Description = "Single word, multiple matches")]
@@ -93,24 +102,36 @@ namespace Jobberwocky.Test.Repositories
     public async Task FiltersByTitle(string keywords, int matchesCount)
     {
       var sut = this.CreateSut();
-      var nonMatchingTasks = new List<Task<Guid>>(2)
-      {
-        sut.Add(TestDataCreator.Posting(title: "123 abcd 321")),
-        sut.Add(TestDataCreator.Posting(title: "non-matching")),
-      };
+      await sut.Add(TestDataCreator.Posting(title: "123 abcd 321"));
+      await sut.Add(TestDataCreator.Posting(title: "non-matching"));
 
-      var matchingTasks = new List<Task<Guid>>(matchesCount);
+      var matchingTasks = new List<Guid>(matchesCount);
       for (int i = 0; i < matchesCount; i++)
       {
-        matchingTasks.Add(sut.Add(TestDataCreator.Posting(title: $"123 {keywords} 321")));
+        matchingTasks.Add(await sut.Add(TestDataCreator.Posting(title: $"123 {keywords} 321")));
       }
-
-      Task.WaitAll(nonMatchingTasks.Concat(matchingTasks).ToArray());
 
       var results = (await sut.Search(keywords, null, false, null, null)).ToList();
 
       Assert.AreEqual(matchesCount, results.Count);
-      CollectionAssert.AreEqual(matchingTasks.Select(t=> t.Result), results.Select(p => p.Id));
+      CollectionAssert.AreEquivalent(matchingTasks, results.Select(p => p.Id));
+    }
+
+    [Test]
+    public async Task FiltersByTitleWhenSingleKeywordOfManyMatch()
+    {
+      var sut = this.CreateSut();
+      await sut.Add(TestDataCreator.Posting(title: "123 abcd 321"));
+      await sut.Add(TestDataCreator.Posting(title: "non-matching"));
+
+      var matchingKeyword = Guid.NewGuid().ToString();
+      var searchKeywords = $"{Guid.NewGuid()} {matchingKeyword} {Guid.NewGuid()} {Guid.NewGuid()}";
+      var matchingPost = await sut.Add(TestDataCreator.Posting(title: $"123 {matchingKeyword} 321"));
+
+      var results = (await sut.Search(searchKeywords, null, false, null, null)).ToList();
+
+      Assert.AreEqual(1, results.Count);
+      Assert.AreEqual(matchingPost, results[0].Id);
     }
 
     private void AssertPosting(Posting expected, Posting actual)
