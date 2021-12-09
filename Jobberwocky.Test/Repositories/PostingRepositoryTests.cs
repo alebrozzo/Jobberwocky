@@ -42,7 +42,7 @@ namespace Jobberwocky.Test.Repositories
     {
       var storedPosting = TestDataCreator.Posting();
       var sut = this.CreateSut();
-      _ = sut.Add(storedPosting);
+      _ = await sut.Add(storedPosting);
 
       var retrievedPosting = await sut.Get(storedPosting.Id);
 
@@ -57,7 +57,7 @@ namespace Jobberwocky.Test.Repositories
     {
       var storedPosting = TestDataCreator.Posting();
       var sut = this.CreateSut();
-      _ = sut.Add(storedPosting);
+      _ = await sut.Add(storedPosting);
 
       storedPosting = TestDataCreator.Posting(id: storedPosting.Id);
       await sut.Update(storedPosting);
@@ -73,7 +73,7 @@ namespace Jobberwocky.Test.Repositories
     {
       var storedPosting = TestDataCreator.Posting();
       var sut = this.CreateSut();
-      _ = sut.Add(storedPosting);
+      _ = await sut.Add(storedPosting);
 
       await sut.Delete(storedPosting.Id);
 
