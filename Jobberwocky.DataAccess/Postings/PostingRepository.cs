@@ -108,5 +108,65 @@ namespace Jobberwocky.DataAccess
       var ix = postings.FindIndex(c => c.Id == id);
       postings.RemoveAt(ix);
     }
+
+    public async Task<IEnumerable<Posting>> Search(
+      string keywords,
+      string location,
+      bool remote,
+      decimal? salaryMin,
+      IEnumerable<string> tags)
+    {
+      await Task.Yield();
+      var keywordList = keywords.Split(' ', StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
+      var returnPostings = postings.Where(p => this.Matches(p, keywordList, location, remote, salaryMin, tags));
+      return returnPostings;
+    }
+
+    private bool Matches(
+      Posting posting,
+      IEnumerable<string> keywords,
+      string location,
+      bool remote,
+      decimal? salaryMin,
+      IEnumerable<string> tags)
+    {
+      if (remote && !posting.RemoteAvailable)
+      {
+        return false;
+      }
+
+      // if user requested a minimum salary, check that it is lower than the offered by posting.
+      // if posting does not include a range, then do not discard posting.
+      if (salaryMin.HasValue && posting.SalaryRangeMax.HasValue && posting.SalaryRangeMax.Value < salaryMin.Value)
+      {
+        return false;
+      }
+
+      if (!string.IsNullOrWhiteSpace(location) && !posting.Location.Contains(location, StringComparison.OrdinalIgnoreCase))
+      {
+        return false;
+      }
+
+      if (keywords != null && keywords.Count() > 0)
+      {
+        var titleList = posting.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
+        bool containsKeyword = titleList.Any(word => keywords.Contains(word));
+        if (!containsKeyword)
+        {
+          return false;
+        }
+      }
+
+      if (tags != null && tags.Count() > 0)
+      {
+        bool containsTag = posting.Tags.Any(tag => tags.Contains(tag));
+        if (!containsTag)
+        {
+          return false;
+        }
+      }
+
+      return true;
+    }
   }
 }

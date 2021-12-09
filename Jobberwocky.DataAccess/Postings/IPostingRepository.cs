@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Jobberwocky.Domain;
 
@@ -33,5 +34,21 @@ namespace Jobberwocky.DataAccess
     /// <param name="id">The ID of the posting to delete. Assumes ID exists.</param>
     /// <returns></returns>
     Task Delete(Guid id);
+
+    /// <summary>
+    /// Searchs the repository for matching job postings.
+    /// </summary>
+    /// <param name="keywords">Keywords to search in the title.</param>
+    /// <param name="location">Job location.</param>
+    /// <param name="remote">Whether remote work is an option.</param>
+    /// <param name="salaryMin">Minimum salary within range.</param>
+    /// <param name="tags">A list of tags to try to search for.</param>
+    /// <returns></returns>
+    Task<IEnumerable<Posting>> Search(
+      string keywords,
+      string location,
+      bool remote,
+      decimal? salaryMin,
+      IEnumerable<string> tags);
   }
 }

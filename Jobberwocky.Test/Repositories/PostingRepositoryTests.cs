@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Jobberwocky.DataAccess;
@@ -80,6 +82,35 @@ namespace Jobberwocky.Test.Repositories
       var retrievedPosting = await sut.Get(storedPosting.Id);
 
       Assert.IsNull(retrievedPosting);
+    }
+
+    [TestCase("abcde1", 0, Description = "Single word, no matches")]
+    [TestCase("abcde2", 1, Description = "Single word, single match")]
+    [TestCase("abcde3", 5, Description = "Single word, multiple matches")]
+    [TestCase("abcde4 xyz1", 0, Description = "Multiple words, no matches")]
+    [TestCase("abcde5 xyz2", 1, Description = "Multiple words, single match")]
+    [TestCase("abcde6 xyz3 jklmno1", 5, Description = "Multiple words, multiple matches")]
+    public async Task FiltersByTitle(string keywords, int matchesCount)
+    {
+      var sut = this.CreateSut();
+      var nonMatchingTasks = new List<Task<Guid>>(2)
+      {
+        sut.Add(TestDataCreator.Posting(title: "123 abcd 321")),
+        sut.Add(TestDataCreator.Posting(title: "non-matching")),
+      };
+
+      var matchingTasks = new List<Task<Guid>>(matchesCount);
+      for (int i = 0; i < matchesCount; i++)
+      {
+        matchingTasks.Add(sut.Add(TestDataCreator.Posting(title: $"123 {keywords} 321")));
+      }
+
+      Task.WaitAll(nonMatchingTasks.Concat(matchingTasks).ToArray());
+
+      var results = (await sut.Search(keywords, null, false, null, null)).ToList();
+
+      Assert.AreEqual(matchesCount, results.Count);
+      CollectionAssert.AreEqual(matchingTasks.Select(t=> t.Result), results.Select(p => p.Id));
     }
 
     private void AssertPosting(Posting expected, Posting actual)
