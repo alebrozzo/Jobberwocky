@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Jobberwocky.Api.Dtos;
 using Jobberwocky.Api.Services;
 using Jobberwocky.Domain;
 
@@ -47,6 +48,26 @@ namespace Jobberwocky.Api.Controllers
     public async Task<IActionResult> Delete(Guid id)
     {
       var result = await this.postingService.Delete(id);
+      return this.ServiceResultToHttp(result);
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> Search([FromQuery]
+      string keywords = null,
+      string location = null,
+      bool remoteAllowed = false,
+      decimal? salaryMin = null,
+      string tags = "")
+    {
+      var searchCriteria = new PostingSearchDto
+      {
+        Keywords = keywords,
+        Location = location,
+        RemoteAllowed = remoteAllowed,
+        SalaryMin = salaryMin,
+        Tags = tags.Split(',', StringSplitOptions.RemoveEmptyEntries),
+      };
+      var result = await this.postingService.Search(searchCriteria);
       return this.ServiceResultToHttp(result);
     }
   }
