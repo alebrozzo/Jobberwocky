@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
 using Jobberwocky.Api.Services;
-using Jobberwocky.Domain;
 using Jobberwocky.Test.Helpers;
 using Jobberwocky.Api.Dtos;
 
