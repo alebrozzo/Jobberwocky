@@ -150,7 +150,7 @@ namespace Jobberwocky.DataAccess
       if (keywords != null && keywords.Count() > 0)
       {
         var titleList = posting.Title.Split(' ', StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
-        bool containsKeyword = titleList.Any(word => keywords.Contains(word));
+        bool containsKeyword = titleList.Any(word => keywords.Contains(word, StringComparer.OrdinalIgnoreCase));
         if (!containsKeyword)
         {
           return false;
@@ -159,7 +159,7 @@ namespace Jobberwocky.DataAccess
 
       if (tags != null && tags.Count() > 0)
       {
-        bool containsTag = posting.Tags.Any(tag => tags.Contains(tag));
+        bool containsTag = posting.Tags.Any(tag => tags.Contains(tag, StringComparer.OrdinalIgnoreCase));
         if (!containsTag)
         {
           return false;
