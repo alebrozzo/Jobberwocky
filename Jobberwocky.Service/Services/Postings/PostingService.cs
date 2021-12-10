@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Jobberwocky.Api.Dtos;
 using Jobberwocky.Api.Services.OperationHandling;
 using Jobberwocky.DataAccess;
 using Jobberwocky.Domain;
@@ -38,7 +40,7 @@ namespace Jobberwocky.Api.Services
 
     public async Task<OperationResult<Posting>> Add(Posting posting)
     {
-      var validationResult = await this .ValidatePosting(posting);
+      var validationResult = await this.ValidatePosting(posting);
       if (validationResult != null)
       {
         return validationResult;
@@ -96,6 +98,35 @@ namespace Jobberwocky.Api.Services
 
       await this.postingRepository.Delete(id);
       return OperationResult<bool>.Ok(true);
+    }
+
+    public async Task<OperationResult<IEnumerable<Posting>>> Search(PostingSearchDto postingSearchDto)
+    {
+      if (postingSearchDto == null)
+      {
+        return OperationResult<IEnumerable<Posting>>.Error(OperationStatus.ValidationError, "No search criteria provided.");
+      }
+
+      if (string.IsNullOrWhiteSpace(postingSearchDto.Keywords))
+      {
+        return OperationResult<IEnumerable<Posting>>.Error(OperationStatus.ValidationError, "Please provide at least one search keyword.");
+      }
+
+      var searchResult = await this.postingRepository.Search(
+        postingSearchDto.Keywords,
+        postingSearchDto.Location,
+        postingSearchDto.RemoteAllowed,
+        postingSearchDto.SalaryMin,
+        postingSearchDto.Tags
+      );
+
+      // TODO: this definitely has room for improvement
+      foreach (var posting in searchResult)
+      {
+        posting.CompanyName = (await this.companyRepository.Get(posting.CompanyId.Value)).Name;
+      }
+
+      return OperationResult<IEnumerable<Posting>>.Ok(searchResult);
     }
 
     private async Task<OperationResult<Posting>> ValidatePosting(Posting posting)
