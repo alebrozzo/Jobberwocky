@@ -72,6 +72,18 @@ namespace Jobberwocky.DataAccess
         DateCreated = DateTime.UtcNow.AddDays(-2),
         Tags = new List<string> { "C#", ".NET", "TypeScript", "React", "Soft Skills", "JavaScript" },
       },
+      new Posting {
+        Id = Guid.Parse("55555555-bbbb-cccc-dddd-000000000000"),
+        Title = "Jr. Developer - Front End",
+        Location = "Comodoro Rivadavia, Argentina",
+        CompanyId = Guid.Parse("aaaaaaaa-bbbb-cccc-dddd-000000000000"),
+        Description = "Winds of change",
+        RemoteAvailable = false,
+        SalaryRangeMin = 15000,
+        SalaryRangeMax = 25000,
+        DateCreated = DateTime.UtcNow.AddDays(-7),
+        Tags = new List<string> { "TypeScript", "React", "JavaScript" },
+      },
     };
 
     public async Task<Posting> Get(Guid id)
