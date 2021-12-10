@@ -1,4 +1,4 @@
-using Jobberwocky.Api.Extensions;
+using Jobberwocky.Api.Framework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -1,6 +1,5 @@
-﻿namespace Jobberwocky.Api.Extensions
+﻿namespace Jobberwocky.Api.Framework
 {
-  using System.Net.Http;
   using Microsoft.Extensions.DependencyInjection;
   using Jobberwocky.Api.Services;
   using Jobberwocky.DataAccess;
