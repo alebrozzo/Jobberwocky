@@ -17,6 +17,7 @@ namespace Jobberwocky.Test.Services
   {
     private IPostingRepository postingRepository;
     private ICompanyRepository companyRepository;
+    private IEnumerable<ISearchExternalProvider> externalProviders;
 
     private Company defaultCompany;
 
@@ -25,6 +26,7 @@ namespace Jobberwocky.Test.Services
     {
       this.postingRepository = Substitute.For<IPostingRepository>();
       this.companyRepository = Substitute.For<ICompanyRepository>();
+      this.externalProviders = Substitute.For<IEnumerable<ISearchExternalProvider>>();
       this.defaultCompany = TestDataCreator.Company();
       this.companyRepository.Get(this.defaultCompany.Id).Returns(defaultCompany);
     }
@@ -289,7 +291,7 @@ namespace Jobberwocky.Test.Services
 
     private PostingService CreateSut()
     {
-      return new PostingService(this.postingRepository, this.companyRepository);
+      return new PostingService(this.postingRepository, this.companyRepository, this.externalProviders);
     }
   }
 }

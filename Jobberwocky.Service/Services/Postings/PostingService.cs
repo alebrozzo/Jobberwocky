@@ -13,11 +13,16 @@ namespace Jobberwocky.Api.Services
   {
     private readonly IPostingRepository postingRepository;
     private readonly ICompanyRepository companyRepository;
+    private readonly IEnumerable<ISearchExternalProvider> externalProviders;
 
-    public PostingService(IPostingRepository postingRepository, ICompanyRepository companyRepository)
+    public PostingService(
+      IPostingRepository postingRepository, 
+      ICompanyRepository companyRepository,
+      IEnumerable<ISearchExternalProvider> externalProviders)
     {
       this.postingRepository = postingRepository ?? throw new ArgumentNullException(nameof(postingRepository));
       this.companyRepository = companyRepository ?? throw new ArgumentNullException(nameof(companyRepository));
+      this.externalProviders = externalProviders ?? throw new ArgumentNullException(nameof(externalProviders));
     }
 
     public async Task<OperationResult<Posting>> Get(Guid id)
@@ -126,7 +131,17 @@ namespace Jobberwocky.Api.Services
         posting.CompanyName = (await this.companyRepository.Get(posting.CompanyId.Value)).Name;
       }
 
-      return OperationResult<IEnumerable<Posting>>.Ok(searchResult);
+      // Search from all other registered external providers
+      var externalProviderTasks = new List<Task<IEnumerable<Posting>>>();
+      foreach (var externalProvider in this.externalProviders)
+      {
+        externalProviderTasks.Add(externalProvider.SearchJobPostings(postingSearchDto));
+      }
+
+      var externalPostings = await Task.WhenAll(externalProviderTasks);
+      var combinedResults = searchResult.Concat(externalPostings.SelectMany(p => p));
+      combinedResults.OrderBy(p => p.DateCreated);
+      return OperationResult<IEnumerable<Posting>>.Ok(combinedResults);
     }
 
     private async Task<OperationResult<Posting>> ValidatePosting(Posting posting)
