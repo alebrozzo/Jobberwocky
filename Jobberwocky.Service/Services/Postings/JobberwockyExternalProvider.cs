@@ -27,8 +27,7 @@ namespace Jobberwocky.Api.Services
       var httpClient = this.httpClientFactory.CreateClient();
       httpClient.Timeout = TimeSpan.FromSeconds(10);
 
-      var request = new HttpRequestMessage(HttpMethod.Get, searchUrl);
-      var response = await httpClient.SendAsync(request);
+      var response = await httpClient.GetAsync(searchUrl);
       if (!response.IsSuccessStatusCode)
       {
         // TODO: Log an error.
@@ -79,6 +78,7 @@ namespace Jobberwocky.Api.Services
         Title = jobberwockyDto.Name,
         SalaryRangeMin = jobberwockyDto.Salary,
         SalaryRangeMax = jobberwockyDto.Salary,
+        Location = jobberwockyDto.Country,
         Tags = jobberwockyDto.Skills,
       };
     }
