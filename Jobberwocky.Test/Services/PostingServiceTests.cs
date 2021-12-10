@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
@@ -7,6 +9,7 @@ using Jobberwocky.Api.Services.OperationHandling;
 using Jobberwocky.DataAccess;
 using Jobberwocky.Domain;
 using Jobberwocky.Test.Helpers;
+using Jobberwocky.Api.Dtos;
 
 namespace Jobberwocky.Test.Services
 {
@@ -30,7 +33,7 @@ namespace Jobberwocky.Test.Services
     public async Task CanGetPostingById()
     {
       var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id);
-      this.postingRepository.Get(default).ReturnsForAnyArgs(Task.FromResult(postingToCreate));
+      this.postingRepository.Get(default).ReturnsForAnyArgs(postingToCreate);
 
       var postingService = this.CreateSut();
       var result = await postingService.Get(postingToCreate.Id);
@@ -70,8 +73,8 @@ namespace Jobberwocky.Test.Services
       var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salaryMin: salaryMin, salaryMax: salaryMax);
       postingToCreate.Id = Guid.Empty;
       var createdId = Guid.NewGuid();
-      this.postingRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(createdId));
-      this.postingRepository.Get(default).ReturnsForAnyArgs(Task.FromResult(postingToCreate));
+      this.postingRepository.Add(default).ReturnsForAnyArgs(createdId);
+      this.postingRepository.Get(default).ReturnsForAnyArgs(postingToCreate);
 
       var postingService = this.CreateSut();
       var result = await postingService.Add(postingToCreate);
@@ -92,7 +95,7 @@ namespace Jobberwocky.Test.Services
     public async Task CannotAddPostingWhenDataIsNotValid(string title, string description, decimal? salaryMin, decimal? salaryMax)
     {
       var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id, title: title, description: description, salaryMin: salaryMin, salaryMax: salaryMax);
-      this.postingRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(postingToCreate.Id));
+      this.postingRepository.Add(default).ReturnsForAnyArgs(postingToCreate.Id);
 
       var postingService = this.CreateSut();
       var result = await postingService.Add(postingToCreate);
@@ -105,7 +108,7 @@ namespace Jobberwocky.Test.Services
     public async Task CannotAddPostingWhenIdAlreadyExists()
     {
       var postingToCreate = TestDataCreator.Posting(companyId: defaultCompany.Id);
-      this.postingRepository.Get(postingToCreate.Id).ReturnsForAnyArgs(Task.FromResult(postingToCreate));
+      this.postingRepository.Get(postingToCreate.Id).ReturnsForAnyArgs(postingToCreate);
 
       var postingService = this.CreateSut();
       var result = await postingService.Add(postingToCreate);
@@ -118,7 +121,7 @@ namespace Jobberwocky.Test.Services
     public async Task CannotAddPostingWhenCompanyDoesNotExist()
     {
       var postingToCreate = TestDataCreator.Posting(companyId: Guid.NewGuid());
-      this.postingRepository.Get(postingToCreate.Id).ReturnsForAnyArgs(Task.FromResult(postingToCreate));
+      this.postingRepository.Get(postingToCreate.Id).ReturnsForAnyArgs(postingToCreate);
       this.companyRepository.Get(postingToCreate.CompanyId.Value).Returns((Company)null);
 
       var postingService = this.CreateSut();

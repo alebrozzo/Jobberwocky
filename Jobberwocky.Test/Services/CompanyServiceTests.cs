@@ -23,7 +23,7 @@ namespace Jobberwocky.Test.Services
     public async Task CanGetCompanyById()
     {
       var companyToCreate = TestDataCreator.Company();
-      this.companyRepository.Get(default).ReturnsForAnyArgs(Task.FromResult(companyToCreate));
+      this.companyRepository.Get(default).ReturnsForAnyArgs(companyToCreate);
 
       var companyService = this.CreateSut();
       var result = await companyService.Get(companyToCreate.Id);
@@ -58,7 +58,7 @@ namespace Jobberwocky.Test.Services
     public async Task CanAddCompanyWhenDataIsValid(string name)
     {
       var companyToCreate = TestDataCreator.Company(name: name);
-      this.companyRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(companyToCreate.Id));
+      this.companyRepository.Add(default).ReturnsForAnyArgs(companyToCreate.Id);
 
       var companyService = this.CreateSut();
       var result = await companyService.Add(companyToCreate);
@@ -73,7 +73,7 @@ namespace Jobberwocky.Test.Services
     public async Task CannotAddCompanyWhenDataIsNotValid(string name)
     {
       var companyToCreate = TestDataCreator.Company(name: name);
-      this.companyRepository.Add(default).ReturnsForAnyArgs(Task.FromResult(companyToCreate.Id));
+      this.companyRepository.Add(default).ReturnsForAnyArgs(companyToCreate.Id);
 
       var companyService = this.CreateSut();
       var result = await companyService.Add(companyToCreate);
@@ -86,7 +86,7 @@ namespace Jobberwocky.Test.Services
     public async Task CannotAddCompanyWhenIdlreadyExists()
     {
       var companyToCreate = TestDataCreator.Company();
-      this.companyRepository.Get(companyToCreate.Id).ReturnsForAnyArgs(Task.FromResult(companyToCreate));
+      this.companyRepository.Get(companyToCreate.Id).ReturnsForAnyArgs(companyToCreate);
 
       var companyService = this.CreateSut();
       var result = await companyService.Add(companyToCreate);
