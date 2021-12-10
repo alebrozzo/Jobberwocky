@@ -5,14 +5,14 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Jobberwocky.Api.Dtos;
-using Jobberwocky.Api.Services.OperationHandling;
-using Jobberwocky.DataAccess;
 using Jobberwocky.Domain;
 
 namespace Jobberwocky.Api.Services
 {
   public class JobberwockyExternalProvider : ISearchExternalProvider
   {
+    // TODO: this could be taken from config.
+    private readonly string searchBaseUrl = @"http://localhost:8080/jobs";
     private readonly IHttpClientFactory httpClientFactory;
 
     public JobberwockyExternalProvider(IHttpClientFactory httpClientFactory)
@@ -22,20 +22,24 @@ namespace Jobberwocky.Api.Services
 
     public async Task<IEnumerable<Posting>> SearchJobPostings(PostingSearchDto postingSearchDto)
     {
+      string searchUrl = $"{this.searchBaseUrl}?name={postingSearchDto.Keywords}&salary_min={postingSearchDto.SalaryMin}&country={postingSearchDto.Location}";
+
       var httpClient = this.httpClientFactory.CreateClient();
       httpClient.Timeout = TimeSpan.FromSeconds(10);
 
-      var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:8080/jobs");
+      var request = new HttpRequestMessage(HttpMethod.Get, searchUrl);
       var response = await httpClient.SendAsync(request);
       if (!response.IsSuccessStatusCode)
       {
-        // TODO: Log an error
+        // TODO: Log an error.
         return new Posting[0];
       }
 
       var resultsAsString = await response.Content.ReadAsStringAsync();
       var results = this.ToJobberwockyResultDtos(resultsAsString);
-      return results.Select(this.Map);
+      var filteredResults = this.ApplyOtherFilters(postingSearchDto, results);
+
+      return filteredResults.Select(this.Map);
     }
 
     /// <summary>
@@ -77,6 +81,25 @@ namespace Jobberwocky.Api.Services
         SalaryRangeMax = jobberwockyDto.Salary,
         Tags = jobberwockyDto.Skills,
       };
+    }
+
+    /// <summary>
+    /// Apply filters that our service allows but Jobberwocky does not.
+    /// </summary>
+    /// <param name="postingSearchDto">The filters indicated by the user.</param>
+    /// <param name="postings">The list of postings to filter.</param>
+    /// <returns></returns>
+    private IEnumerable<JobberwockyResultDto> ApplyOtherFilters(PostingSearchDto postingSearchDto, IEnumerable<JobberwockyResultDto> postings)
+    {
+      var filteredResults = postings;
+      if (postingSearchDto.Tags != null && postingSearchDto.Tags.Count() > 0)
+      {
+        filteredResults = filteredResults.Where(posting => 
+          posting.Skills.Any(skill => postingSearchDto.Tags.Contains(skill, StringComparer.OrdinalIgnoreCase))
+        );
+      }
+
+      return filteredResults;
     }
 
     private class JobberwockyResultDto
