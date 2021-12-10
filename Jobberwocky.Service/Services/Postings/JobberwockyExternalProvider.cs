@@ -11,7 +11,7 @@ namespace Jobberwocky.Api.Services
 {
   public class JobberwockyExternalProvider : ISearchExternalProvider
   {
-    // TODO: this could be taken from config.
+    // TODO: this could be taken from a config file or repository.
     private readonly string searchBaseUrl = @"http://localhost:8080/jobs";
     private readonly IHttpClientFactory httpClientFactory;
 
