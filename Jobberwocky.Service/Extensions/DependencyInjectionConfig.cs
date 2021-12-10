@@ -1,8 +1,9 @@
 ﻿namespace Jobberwocky.Api.Extensions
 {
+  using System.Net.Http;
+  using Microsoft.Extensions.DependencyInjection;
   using Jobberwocky.Api.Services;
   using Jobberwocky.DataAccess;
-  using Microsoft.Extensions.DependencyInjection;
 
   public static class MyConfigServiceCollectionExtensions
   {
@@ -13,6 +14,7 @@
       services.AddScoped<IPostingRepository, PostingRepository>();
       services.AddScoped<ICompanyService, CompanyService>();
       services.AddScoped<IPostingService, PostingService>();
+      services.AddScoped<ISearchExternalProvider, JobberwockyExternalProvider>();
 
       return services;
     }
