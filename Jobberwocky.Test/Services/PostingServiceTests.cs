@@ -231,6 +231,62 @@ namespace Jobberwocky.Test.Services
       await this.postingRepository.DidNotReceiveWithAnyArgs().Delete(default);
     }
 
+    [TestCase("word1 word2", "somewhere", true, 54321, "tag1,tag2", Description = "All criteria set")]
+    [TestCase("word1", null, false, null, "", Description = "Minimal criteria set")]
+    public async Task CanSearchForPostings(
+      string keywords,
+      string location,
+      bool remoteAllowed,
+      decimal? salaryMin,
+      string tags)
+    {
+      var posting1 = TestDataCreator.Posting(companyId: defaultCompany.Id);
+      var posting2 = TestDataCreator.Posting(companyId: defaultCompany.Id);
+      var searchResult = new List<Posting>(2) { posting1, posting2 };
+      var searchCriteria = new PostingSearchDto
+      {
+        Keywords = keywords,
+        Location = location,
+        RemoteAllowed = remoteAllowed,
+        SalaryMin = salaryMin,
+        Tags = tags.Split(','),
+      };
+
+      this.postingRepository
+        .Search(searchCriteria.Keywords, searchCriteria.Location, searchCriteria.RemoteAllowed, searchCriteria.SalaryMin, searchCriteria.Tags)
+        .Returns(searchResult);
+
+      var postingService = this.CreateSut();
+      var result = await postingService.Search(searchCriteria);
+
+      Assert.AreEqual(OperationStatus.Success, result.Status);
+      Assert.AreEqual(searchResult.Count, result.Result.Count());
+    }
+
+    [Test]
+    public async Task SearchValidatesCriteriaIsNotNull()
+    {
+      var postingService = this.CreateSut();
+      var result = await postingService.Search(null);
+
+      Assert.AreEqual(OperationStatus.ValidationError, result.Status);
+      await this.postingRepository.DidNotReceiveWithAnyArgs().Search(default, default, default, default, default);
+    }
+
+    [TestCase(null, Description = "Null value")]
+    [TestCase("", Description = "Empty string")]
+    [TestCase("                ", Description = "Spaces")]
+    public async Task SearchValidatesKeywordPresent(string keywords)
+    {
+      var searchCriteria = new PostingSearchDto { Keywords = keywords };
+
+      var postingService = this.CreateSut();
+      var result = await postingService.Search(searchCriteria);
+
+      Assert.AreEqual(OperationStatus.ValidationError, result.Status);
+      await this.postingRepository.DidNotReceiveWithAnyArgs().Search(default, default, default, default, default);
+    }
+
     private PostingService CreateSut()
     {
       return new PostingService(this.postingRepository, this.companyRepository);
