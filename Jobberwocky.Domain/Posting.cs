@@ -15,7 +15,7 @@ namespace Jobberwocky.Domain
 
     public string Location { get; set; }
 
-    public bool RemoteAvailable { get; set; }
+    public bool? RemoteAvailable { get; set; }
 
     public string Description { get; set; }
 

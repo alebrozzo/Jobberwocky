@@ -190,7 +190,7 @@ namespace Jobberwocky.DataAccess
       decimal? salaryMin,
       IEnumerable<string> tags)
     {
-      if (remote && !posting.RemoteAvailable)
+      if (remote && posting.RemoteAvailable.HasValue && !posting.RemoteAvailable.Value)
       {
         return false;
       }
