@@ -1,4 +1,5 @@
 using Jobberwocky.Api.Framework;
+using Jobberwocky.Api.Services.BackgroundJobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ namespace Jobberwocky.Api
       services.AddRazorPages();
       services.AddDependencyInjectionConfig();
       services.AddHttpClient();
+      services.AddHostedService<JobAlertService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

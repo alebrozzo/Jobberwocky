@@ -11,6 +11,7 @@
     {
       services.AddScoped<ICompanyRepository, CompanyRepository>();
       services.AddScoped<IPostingRepository, PostingRepository>();
+      services.AddScoped<IJobAlertSubscriptionRepository, JobAlertSubscriptionRepository>();
       services.AddScoped<ICompanyService, CompanyService>();
       services.AddScoped<IPostingService, PostingService>();
       services.AddScoped<ISearchExternalProvider, JobberwockyExternalProvider>();
