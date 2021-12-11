@@ -1,9 +1,9 @@
-﻿namespace Jobberwocky.Api.Framework
-{
-  using Microsoft.Extensions.DependencyInjection;
-  using Jobberwocky.Api.Services;
-  using Jobberwocky.DataAccess;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Jobberwocky.Api.Services;
+using Jobberwocky.DataAccess;
 
+namespace Jobberwocky.Api.Framework
+{
   public static class MyConfigServiceCollectionExtensions
   {
     public static IServiceCollection AddDependencyInjectionConfig(

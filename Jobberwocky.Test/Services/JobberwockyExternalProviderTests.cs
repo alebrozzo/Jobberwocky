@@ -3,11 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
+using Jobberwocky.Api.Dtos;
 using Jobberwocky.Api.Services;
 using Jobberwocky.Test.Helpers;
-using Jobberwocky.Api.Dtos;
 
 namespace Jobberwocky.Test.Services
 {

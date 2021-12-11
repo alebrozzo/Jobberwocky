@@ -1,6 +1,6 @@
-﻿using Jobberwocky.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Jobberwocky.Domain;
 
 namespace Jobberwocky.Test.Helpers
 {

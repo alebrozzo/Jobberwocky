@@ -1,11 +1,11 @@
 using System;
-using NUnit.Framework;
+using System.Threading.Tasks;
 using NSubstitute;
+using NUnit.Framework;
 using Jobberwocky.Api.Services;
+using Jobberwocky.Api.Services.OperationHandling;
 using Jobberwocky.DataAccess;
 using Jobberwocky.Test.Helpers;
-using System.Threading.Tasks;
-using Jobberwocky.Api.Services.OperationHandling;
 
 namespace Jobberwocky.Test.Services
 {
