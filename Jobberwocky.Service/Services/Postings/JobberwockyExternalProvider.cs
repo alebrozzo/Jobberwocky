@@ -22,7 +22,15 @@ namespace Jobberwocky.Api.Services
 
     public async Task<IEnumerable<Posting>> SearchJobPostings(PostingSearchDto postingSearchDto)
     {
-      string searchUrl = $"{this.searchBaseUrl}?name={postingSearchDto.Keywords}&salary_min={postingSearchDto.SalaryMin}&country={postingSearchDto.Location}";
+      string searchUrl = $"{this.searchBaseUrl}?name={postingSearchDto.Keywords}";
+      if (postingSearchDto.SalaryMin.HasValue)
+      {
+        searchUrl += $"&salary_min={postingSearchDto.SalaryMin}";
+      }
+      if (!string.IsNullOrWhiteSpace(postingSearchDto.Location))
+      {
+        searchUrl += $"&country={postingSearchDto.Location}";
+      }
 
       var httpClient = this.httpClientFactory.CreateClient();
       httpClient.Timeout = TimeSpan.FromSeconds(10);
@@ -94,7 +102,7 @@ namespace Jobberwocky.Api.Services
       var filteredResults = postings;
       if (postingSearchDto.Tags != null && postingSearchDto.Tags.Count() > 0)
       {
-        filteredResults = filteredResults.Where(posting => 
+        filteredResults = filteredResults.Where(posting =>
           posting.Skills.Any(skill => postingSearchDto.Tags.Contains(skill, StringComparer.OrdinalIgnoreCase))
         );
       }
